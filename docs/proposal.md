@@ -29,7 +29,7 @@
 
 ## 6. Methodology
 
-*[One paragraph on process: requirements → design (flowcharts, data model) → implementation in weekly milestones → testing → documentation. Then one paragraph on technology: Python 3, Django with SQLite, server-rendered HTML, and a standalone Python AI module. Say WHY these fit a beginner team and a 45-hour budget: batteries included, no server setup, one language throughout.]*
+*[One paragraph on process: requirements → design (flowcharts, data model) → implementation in weekly milestones → testing → documentation. Then one paragraph on technology: Python 3, Django with PostgreSQL, server-rendered HTML, and a standalone Python AI module. Say WHY these fit a beginner team and a 45-hour budget: batteries included, an industry-standard database, one language throughout.]*
 
 📖 Read: [How Django works](https://learn.kevalabs.com/python/django/how-django-works/) · [Your toolbox](https://learn.kevalabs.com/python/fundamentals/your-toolbox/)
 

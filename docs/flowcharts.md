@@ -14,7 +14,7 @@ flowchart TD
     D -- no --> E[Re-show form with errors]
     E --> B
     D -- yes --> F[View saves record via the model]
-    F --> G[(SQLite database)]
+    F --> G[(PostgreSQL database)]
     F --> H[View calls the AI module]
     H --> I[Rendered HTML response]
     G --> F

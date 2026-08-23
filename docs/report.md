@@ -18,7 +18,7 @@
 
 *[The "how it's built" chapter, 3–4 pages:]*
 
-- **Architecture** — *[browser → Django (URLs → views → models → templates) → SQLite; a diagram plus a paragraph per layer. Explain server-side rendering and why it fits this project.]*
+- **Architecture** — *[browser → Django (URLs → views → models → templates) → PostgreSQL; a diagram plus a paragraph per layer. Explain server-side rendering and why it fits this project.]*
   📖 [How Django works](https://learn.kevalabs.com/python/django/how-django-works/) · [Server-side vs client-side rendering](https://learn.kevalabs.com/web-fundamentals/server-side-vs-client-side-rendering/)
 - **Data model** — *[the ER diagram, then one paragraph per entity: what it stores and why the relationships are shaped that way.]*
 - **The intelligent component** — *[your algorithm from first principles: the problem formulation (states/actions/goal, or rules), WHY this algorithm fits (what would brute force cost? what does yours guarantee?), and a worked example traced by hand on your real data. This subsection carries the "intelligent system" claim — make it the best-written page in the report.]*
@@ -48,7 +48,7 @@
 
 ## 8. Limitations and future enhancements
 
-*[Half a page each. Limitations: the out-of-scope list from the proposal, stated plainly. Future work: 3–4 items with one sentence on how each would be built — this shows the examiners you understand the road not taken (e.g. "PostgreSQL for concurrent staff use", "deployment to a real server").]*
+*[Half a page each. Limitations: the out-of-scope list from the proposal, stated plainly. Future work: 3–4 items with one sentence on how each would be built — this shows the examiners you understand the road not taken (e.g. "deployment to a real server", "automated database backups").]*
 📖 [How deployment works](https://learn.kevalabs.com/web-fundamentals/how-deployment-works/)
 
 ## References

@@ -32,7 +32,7 @@ An isolated per-project package set, so your project's Django version can't clas
 ## Web and Django
 
 **Q. What happens when a user submits the order form? Walk me through it.**
-Browser sends an HTTP POST → Django's URL router matches the path to a view → the form validates the data (re-shown with errors if invalid) → the view saves via the model → the ORM writes an SQL INSERT to SQLite → the view returns rendered HTML. Practice this chain — it's the single most-asked viva question for web projects. 📖 [How HTTP works](https://learn.kevalabs.com/web-fundamentals/how-http-works/) · [How Django works](https://learn.kevalabs.com/python/django/how-django-works/)
+Browser sends an HTTP POST → Django's URL router matches the path to a view → the form validates the data (re-shown with errors if invalid) → the view saves via the model → the ORM writes an SQL INSERT to PostgreSQL → the view returns rendered HTML. Practice this chain — it's the single most-asked viva question for web projects. 📖 [How HTTP works](https://learn.kevalabs.com/web-fundamentals/how-http-works/) · [How Django works](https://learn.kevalabs.com/python/django/how-django-works/)
 
 **Q. What is CSRF and how does your project handle it?**
 A forged cross-site submission riding on a logged-in user's cookies; Django's `{% csrf_token %}` puts a secret in each form and rejects POSTs without it. 📖 [How HTML forms work](https://learn.kevalabs.com/web-fundamentals/how-html-forms-work/)
@@ -54,8 +54,8 @@ Primary: the column that uniquely identifies a row (Django adds `id` automatical
 **Q. What does the ORM actually do?**
 Translates between objects and rows: `Order.objects.filter(status="placed")` becomes a SQL `SELECT … WHERE`. Know one example in both notations. 📖 [How ORMs work](https://learn.kevalabs.com/python/fundamentals/how-orms-work/)
 
-**Q. Why SQLite? What would you change for real deployment?**
-Zero-setup, single-file, perfect for one-machine development. For production with many concurrent staff: PostgreSQL — in Django that's a settings change, not a rewrite. 📖 [How deployment works](https://learn.kevalabs.com/web-fundamentals/how-deployment-works/)
+**Q. Why PostgreSQL and not something simpler like SQLite?**
+SQLite is a single file with one writer at a time — fine for solo development. PostgreSQL is a real client-server database: it handles several staff users writing concurrently, and it's what production systems actually run, so deploying our project needs no database change. Know the shape: PostgreSQL runs as a separate server process; Django connects to it through settings and the psycopg driver. 📖 [PostgreSQL 101](https://learn.kevalabs.com/databases/postgresql-101/) · [How deployment works](https://learn.kevalabs.com/web-fundamentals/how-deployment-works/)
 
 ## Git and teamwork
 

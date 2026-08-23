@@ -45,7 +45,7 @@ You don't start from a blank page. You start from here.
 
 These keep the project finishable in 45 hours. Breaking them needs supervisor approval, and the answer is probably no:
 
-- **Django + SQLite**, server-rendered templates only. No JavaScript frameworks, no REST APIs, no real-time features.
+- **Django + PostgreSQL**, server-rendered templates only. No JavaScript frameworks, no REST APIs, no real-time features. (PostgreSQL setup is a one-time cost per machine — `src/README.md` walks you through it.)
 - **Django admin is your back-office.** Menu items, tables, plans, vendors — managed there, not in hand-built screens.
 - **No payments, no email/SMS, no user registration.** At most one staff login. Customer-facing forms take a name and phone number.
 - **The AI part is a pure-Python module** (`ai/`) with plain functions your views call. It must run and be demonstrable on its own, without Django.

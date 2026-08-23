@@ -57,7 +57,7 @@
 
 *[List your entities and one line each on what they represent — the full ER diagram lives in `flowcharts.md`, the field-by-field detail in your project-pack. "Order: one customer's request, with a status that moves Placed → Preparing → Ready."]*
 
-📖 Read: [PostgreSQL 101](https://learn.kevalabs.com/databases/postgresql-101/) — tables, rows, and keys; the concepts are identical in SQLite.
+📖 Read: [PostgreSQL 101](https://learn.kevalabs.com/databases/postgresql-101/) — tables, rows, and keys, in the exact database you're using.
 
 ## 7. Interface requirements
 
