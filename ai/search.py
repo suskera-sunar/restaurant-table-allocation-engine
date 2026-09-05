@@ -43,29 +43,23 @@ def take_bfs(frontier, h=None):
 
 
 def take_dfs(frontier, h=None):
-    """Depth-first: take the NEWEST entry (stack).
-
-    TODO: one line. Which index does .pop() use for the newest?
-    """
-    raise NotImplementedError("take_dfs: your turn")
+    """Depth-first: take the NEWEST entry (stack)."""
+    return frontier.pop()
 
 
 def take_greedy(frontier, h=None):
-    """Greedy best-first: take the entry whose STATE has the smallest h.
-
-    TODO: find the entry with minimal h(state), remove it from the
-    frontier, and return it. (min() with a key function, or a loop --
-    entry[0] is the state.)
-    """
-    raise NotImplementedError("take_greedy: your turn")
+    """Greedy best-first: take the entry whose STATE has the smallest h."""
+    best_index = min(range(len(frontier)), key=lambda i: h(frontier[i][0]))
+    return frontier.pop(best_index)
 
 
 def take_astar(frontier, h=None):
-    """A*: take the entry with the smallest f = cost_so_far + h(state).
-
-    TODO: like take_greedy, but rank by entry[2] + h(entry[0]).
-    """
-    raise NotImplementedError("take_astar: your turn")
+    """A*: take the entry with the smallest f = cost_so_far + h(state)."""
+    best_index = min(
+        range(len(frontier)),
+        key=lambda i: frontier[i][2] + h(frontier[i][0]),
+    )
+    return frontier.pop(best_index)
 
 
 # ------------------------------------------------------- cafe team only
@@ -81,12 +75,24 @@ def bfs_levels(steps, depends_on):
     is done, and so on. This is BFS's ring-by-ring exploration read as a
     schedule -- see the "dependency levels" part of the guide.
 
-    TODO (cafe team): repeat until every step is placed:
-      1. find all unplaced steps whose prerequisites are ALL already placed
-      2. that set is the next batch; if it's empty but steps remain,
-         the dependencies contain a cycle -> raise ValueError
+    Repeat until every step is placed. If no step is ready while work
+    remains, the dependencies contain a cycle.
     """
-    raise NotImplementedError("bfs_levels: cafe team, your turn")
+    placed = set()
+    batches = []
+
+    while len(placed) < len(steps):
+        ready = [
+            step for step in steps
+            if step not in placed
+            and all(dependency in placed for dependency in depends_on.get(step, []))
+        ]
+        if not ready:
+            raise ValueError("dependency cycle detected")
+        batches.append(ready)
+        placed.update(ready)
+
+    return batches
 
 
 # ------------------------------------------------------------- self-test
