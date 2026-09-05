@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reserve | Laurel &amp; Salt</title>
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="side-nav">
+            <a class="brand" href="{% url 'core:booking' %}">LAUREL <span>&amp;</span> SALT</a>
+            <div class="side-nav-content">
+                <p class="side-label">Guest services</p>
+                <a class="side-link active" href="{% url 'core:booking' %}"><span>01</span> Reserve a table</a>
+                <a class="side-link" href="#how-it-works"><span>02</span> How it works</a>
+            </div>
+            <div class="staff-card">
+                <p class="side-label">For the team</p>
+                <p>Manage tonight's tables and reservations.</p>
+                <a class="staff-link" href="{% url 'admin:index' %}">Staff sign in <span>↗</span></a>
+            </div>
+        </aside>
+        <main class="content-shell">
+            <header class="mobile-topbar">
+                <a class="brand" href="{% url 'core:booking' %}">LAUREL <span>&amp;</span> SALT</a>
+                <a class="nav-link" href="{% url 'admin:index' %}">Staff sign in</a>
+            </header>
+            <section class="hero-copy">
+                <p class="eyebrow">A seat at the table</p>
+                <h1>Make an evening of it.</h1>
+                <p class="lede">Tell us when you are joining us and how many places to set. We will find the best-sized table for your party.</p>
+            </section>
+            <section class="process" id="how-it-works">
+                <div class="process-heading">
+                    <p class="eyebrow">Simple by design</p>
+                    <h2>Three steps to your table</h2>
+                </div>
+                <div class="steps">
+                    <article class="step"><span>01</span><h3>Pick a time</h3><p>Choose one of our fixed dining slots.</p></article>
+                    <article class="step"><span>02</span><h3>Tell us your size</h3><p>Share your name, phone, and party size.</p></article>
+                    <article class="step"><span>03</span><h3>We fit the table</h3><p>Our engine finds the closest table for your party.</p></article>
+                </div>
+            </section>
+            <section class="form-panel booking-panel">
+                <div class="form-heading"><div><p class="eyebrow">Tonight's reservations</p><h2 class="panel-title">Reserve your table</h2></div><span class="form-mark">✦</span></div>
+                <p class="panel-note">Choose from our evening dining slots.</p>
+                {% if messages %}
+                    {% for message in messages %}<p class="message">{{ message }}</p>{% endfor %}
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {{ form.as_p }}
+                    <button type="submit">Find my table <span>→</span></button>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

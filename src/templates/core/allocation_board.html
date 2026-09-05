@@ -1,0 +1,45 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ slot.label }} | Allocation board</title>
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+</head>
+<body>
+    <div class="shell">
+        <header class="topbar">
+            <a class="brand" href="{% url 'core:booking' %}">LAUREL <span>&amp;</span> SALT</a>
+            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+        </header>
+        <main>
+            <header class="board-header">
+                <div>
+                    <p class="eyebrow">Staff allocation board</p>
+                    <h1>{{ slot.label }}</h1>
+                </div>
+                <p class="board-meta">{{ reservation_date|default:"All dates" }}<br>{{ reservations|length }} reservation{{ reservations|length|pluralize }} scheduled</p>
+            </header>
+            <section class="board-panel">
+                <table>
+                    <thead><tr><th>Guest</th><th>Date</th><th>Party</th><th>Table</th><th>Status</th></tr></thead>
+                    <tbody>
+                        {% for reservation in reservations %}
+                            <tr>
+                                <td>{{ reservation.guest_name }}</td>
+                                <td>{{ reservation.reservation_date }}</td>
+                                <td>{{ reservation.party_size }}</td>
+                                <td>{{ reservation.table|default:"Unassigned" }}</td>
+                                <td class="status">{{ reservation.get_status_display }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td class="empty" colspan="5">No reservations yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
