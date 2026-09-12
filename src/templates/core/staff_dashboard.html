@@ -1,0 +1,91 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Staff dashboard | Laurel &amp; Salt</title>
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="shell">
+        <header class="topbar">
+            <a class="brand" href="{% url 'core:booking' %}">LAUREL <span>&amp;</span> SALT</a>
+            <a class="nav-link" href="{% url 'core:booking' %}">Guest booking</a>
+        </header>
+        <main>
+            <header class="board-header">
+                <div>
+                    <p class="eyebrow">Staff dashboard</p>
+                    <h1>Table control.</h1>
+                </div>
+                <p class="board-meta">{{ selected_date }}<br>{{ tables|length }} active table{{ tables|length|pluralize }}</p>
+            </header>
+            <section class="dashboard-tools">
+                <div>
+                    <p class="panel-title">Allocation overview</p>
+                    <p class="rule-note">A table is full for this view when it is assigned to a confirmed or arrived reservation in the selected date and slot. Bookings use the smallest table that fits the party.</p>
+                </div>
+                <form method="get">
+                    <div>
+                        <label for="dashboard-date">Date</label>
+                        <input id="dashboard-date" name="date" class="datepicker" type="text" value="{{ reservation_date }}" autocomplete="off">
+                    </div>
+                    <button type="submit">View date</button>
+                </form>
+            </section>
+            {% for row in slot_rows %}
+                <section class="board-panel dashboard-panel">
+                    <div class="slot-summary">
+                        <div>
+                            <h2>{{ row.slot.label }}</h2>
+                            <p>{{ row.reservations|length }} reservation{{ row.reservations|length|pluralize }} · {{ row.available_count }} available table{{ row.available_count|pluralize }}</p>
+                        </div>
+                        <a href="{% url 'core:allocation-board' row.slot.id %}?date={{ reservation_date }}">Open board ↗</a>
+                    </div>
+                    <div class="table-grid">
+                        {% for table in tables %}
+                            <div class="table-tile{% if table.id in row.occupied_ids %} full{% endif %}">
+                                <strong>Table {{ table.number }}</strong>
+                                {% if table.id in row.occupied_ids %}
+                                    <span>Full · {{ table.capacity }} seats</span>
+                                {% else %}
+                                    <span>Available · {{ table.capacity }} seats</span>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <p class="empty">No active tables configured.</p>
+                        {% endfor %}
+                    </div>
+                    <div class="reservation-list">
+                        <p class="reservation-list-heading">Guest check-in</p>
+                        <table>
+                            <thead><tr><th>Guest</th><th>Phone</th><th>Party</th><th>Table</th><th>Status</th></tr></thead>
+                            <tbody>
+                                {% for reservation in row.reservations %}
+                                    <tr>
+                                        <td>{{ reservation.guest_name }}</td>
+                                        <td><a class="phone-link" href="tel:{{ reservation.phone }}">{{ reservation.phone }}</a></td>
+                                        <td>{{ reservation.party_size }}</td>
+                                        <td>{{ reservation.table|default:"Unassigned" }}</td>
+                                        <td class="status">{{ reservation.get_status_display }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><td class="empty" colspan="5">No reservations for this period.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            {% empty %}
+                <section class="board-panel"><p class="empty">No active dining slots configured.</p></section>
+            {% endfor %}
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr(".datepicker", { dateFormat: "Y-m-d", allowInput: true });
+    </script>
+</body>
+</html>

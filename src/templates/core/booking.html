@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reserve | Laurel &amp; Salt</title>
     <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
     <div class="app-shell">
@@ -19,13 +22,13 @@
             <div class="staff-card">
                 <p class="side-label">For the team</p>
                 <p>Manage tonight's tables and reservations.</p>
-                <a class="staff-link" href="{% url 'admin:index' %}">Staff sign in <span>↗</span></a>
+                <a class="staff-link" href="{% url 'core:staff-dashboard' %}">Open staff dashboard <span>↗</span></a>
             </div>
         </aside>
         <main class="content-shell">
             <header class="mobile-topbar">
                 <a class="brand" href="{% url 'core:booking' %}">LAUREL <span>&amp;</span> SALT</a>
-                <a class="nav-link" href="{% url 'admin:index' %}">Staff sign in</a>
+                <a class="nav-link" href="{% url 'core:staff-dashboard' %}">Staff dashboard</a>
             </header>
             <section class="hero-copy">
                 <p class="eyebrow">A seat at the table</p>
@@ -45,7 +48,7 @@
             </section>
             <section class="form-panel booking-panel">
                 <div class="form-heading"><div><p class="eyebrow">Tonight's reservations</p><h2 class="panel-title">Reserve your table</h2></div><span class="form-mark">✦</span></div>
-                <p class="panel-note">Choose from our evening dining slots.</p>
+                <p class="panel-note">Choose a date, party of 2 or more, and one or more dining periods.</p>
                 {% if messages %}
                     {% for message in messages %}<p class="message">{{ message }}</p>{% endfor %}
                 {% endif %}
@@ -58,5 +61,31 @@
             </section>
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr(".datepicker", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                allowInput: true
+            });
+            $(".slot-select").select2({
+                width: "100%",
+                closeOnSelect: false,
+                placeholder: $(".slot-select").data("placeholder"),
+                allowClear: true
+            });
+            toastr.options = { closeButton: true, progressBar: true, positionClass: "toast-bottom-right" };
+            {% for message in messages %}
+                toastr["{{ message.tags|default:'info' }}"]("{{ message|escapejs }}");
+            {% endfor %}
+            {% if form.errors %}
+                toastr.error("Please check the highlighted fields.");
+            {% endif %}
+        });
+    </script>
 </body>
 </html>
